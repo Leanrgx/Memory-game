@@ -7,10 +7,7 @@ let score = 0;
 
 document.querySelector('.score').textContent = score;
 
-let btn = document.querySelector("#restart");
-btn.addEventListener('click', Restart());
-
-fetch("./data/cards.jason")
+fetch("./data/cards.json")
     .then((res) => res.json())
     .then((data) =>{
         cards = [...data, ...data];
@@ -20,10 +17,10 @@ fetch("./data/cards.jason")
 
 function shuffleCards(){
     let currentIndex = cards.length,
-    randomIndex,
-    temporaryValue;
-    while (currentIndex !==0){
-        randomIndex = Math.floor(Marh.random() * currentIndex);
+        randomIndex,
+        temporaryValue;
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
         temporaryValue = cards[currentIndex];
         cards[currentIndex] = cards[randomIndex];
@@ -37,10 +34,10 @@ function generateCards(){
         cardElement.classList.add("card");
         cardElement.setAttribute("data-name", card.name);
         cardElement.innerHTML = `
-        <div class="front">
-            <img class="front-image" src=${card.image} />
-        </div>
-        <div class="back"></div>
+            <div class="front">
+                <img class="front-image" src=${card.image} />
+            </div>
+            <div class="back"></div>
         `;
         gridContainer.appendChild(cardElement);
         cardElement.addEventListener("click", flipCard);
@@ -53,7 +50,7 @@ function flipCard(){
 
     this.classList.add("flipped");
 
-    if(!firstCard) {
+    if (!firstCard) {
         firstCard = this;
         return;
     }
@@ -66,13 +63,13 @@ function flipCard(){
     checkForMatch();
 }
 
-function checkForMatch(){
-    let isMatch - firstCard.dataset.name === secondCard.dataset.name;
+function checkForMatch() {
+    let isMatch = firstCard.dataset.name === secondCard.dataset.name;
 
     isMatch ? disableCards() : unflipCards();
 }
 
-function disableCards(){
+function disableCards() {
     firstCard.removeEventListener("click", flipCard);
     secondCard.removeEventListener("click", flipCard);
     
@@ -83,12 +80,11 @@ function unflipCards() {
     setTimeout(() =>{
         firstCard.classList.remove("flipped");
         secondCard.classList.remove("flipped");
-
         resetBoard();
     }, 1000);
 }
 
-function resetBoard(){
+function resetBoard() {
     firstCard = null;
     secondCard = null;
     lockBoard = false;
@@ -99,6 +95,6 @@ function restart (){
     shuffleCards();
     score = 0;
     document.querySelector(".score").textContent = score;
-    gridContainer.innerHTML= "";
+    gridContainer.innerHTML = "";
     generateCards();
 }

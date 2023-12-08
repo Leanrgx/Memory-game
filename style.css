@@ -71,10 +71,12 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: rotateY(180deg);
 }
 
 .card .back{
-    background-image: url("images/momo\ poker\ set\ copy_055.png");
+    background-image: url("./images/momoPokerBack.png");
     background-position: center center;
     background-size: cover;
+    backface-visibility: hidden;
 }
