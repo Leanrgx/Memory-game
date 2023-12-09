@@ -78,7 +78,7 @@ function checkForMatch() {
     let isMatch = firstCard.dataset.name === secondCard.dataset.name;
 
     if(isMatch){
-        partialScore();
+        partialPlayerScore();
         disableCards();
     }else{
         unflipCards();
@@ -111,7 +111,10 @@ function startTimer() {
     let startTime = Date.now();
     
     function updateTimer() {
-        if (score == 90)return;          
+        if (score == 10){
+            const finalTime = document.querySelector('.timer').innerText;
+            return finalTime; 
+        }         
         const elapsedTime = (Date.now() - startTime) / 1000;
         const formattedTime = elapsedTime.toFixed(2);
         document.querySelector('.timer').innerText = formattedTime;
@@ -122,21 +125,25 @@ function startTimer() {
     updateTimer();
   }
   
-function partialScore(){
+function partialPlayerScore(){
     score = score + 10;
     document.querySelector(".score").textContent = score;
-
 }
 
+function finalPlayerScore(){
+    let finalScore =  (score * 100) / finalTime;
+    console.log(finalScore);
+}
 
 function restart (){
     if (lockBoard) return;
     resetBoard();
     shuffleCards();
     score = 0;
-    timer = "0.00";
     document.querySelector(".score").textContent = score;
     gridContainer.innerHTML = "";
     generateCards();
+    document.querySelector('.timer').innerText = '0.00';
+    startTimer();
 }
 
