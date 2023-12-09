@@ -78,7 +78,7 @@ function checkForMatch() {
     let isMatch = firstCard.dataset.name === secondCard.dataset.name;
 
     if(isMatch){
-        finalScore();
+        partialScore();
         disableCards();
     }else{
         unflipCards();
@@ -109,30 +109,33 @@ function resetBoard() {
 
 function startTimer() {
     let startTime = Date.now();
-
+    
     function updateTimer() {
-      const elapsedTime = (Date.now() - startTime) / 1000;
-      const formattedTime = elapsedTime.toFixed(2);
-      document.querySelector('.timer').innerText = formattedTime;
-
-      requestAnimationFrame(updateTimer);
+        if (score == 90)return;          
+        const elapsedTime = (Date.now() - startTime) / 1000;
+        const formattedTime = elapsedTime.toFixed(2);
+        document.querySelector('.timer').innerText = formattedTime;
+        
+        requestAnimationFrame(updateTimer);
     }
 
     updateTimer();
   }
   
-function finalScore(){
-    ++score;
+function partialScore(){
+    score = score + 10;
     document.querySelector(".score").textContent = score;
+
 }
 
+
 function restart (){
+    if (lockBoard) return;
     resetBoard();
     shuffleCards();
     score = 0;
-    timer = 0.00;
+    timer = "0.00";
     document.querySelector(".score").textContent = score;
-    document.querySelector('.timer').textContent = timer;
     gridContainer.innerHTML = "";
     generateCards();
 }
