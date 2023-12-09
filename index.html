@@ -7,10 +7,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="startScreen">
+        <div class="textContainer">
+            <h1>Our memories game</h1>
+            <p>I made this game to remind you of all the things we've lived together,
+                I hope you enjoy it and it brings a smile to your face.
+                Just click on the button below to start.</p>
+            <div class="actions">
+                <button id="gameStart">Start!</button>
+            </div>
+        </div>
+    </div>
     <h1>Memory Cards</h1>
     <div class="grid-container">   
     </div>
-    <p>Score: <span class="score"></span></p>
+    <div class="gameInfo">
+        <p>Score: <span class="score"></span></p>
+        <p>Time: <span class="timer">0.00</span></p>
+    </div>
     <div class="actions">
         <button onclick="restart()">Restart</button>
     </div>

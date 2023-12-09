@@ -1,8 +1,17 @@
 body{
     min-height: 100vh;
     min-width: 100vw;
-    background-color: #12181f;
+    background-color: hwb(212 7% 88%);
     color: white;
+}
+
+.startScreen{
+    margin: auto;
+    position: absolute;
+    top: 300px;
+    padding: 16px;
+    background-color: #27ae60;
+    z-index: 2;
 }
 
 h1{
@@ -28,6 +37,12 @@ p {
     border-radius: 10px;
     background-color: #27ae60;
     color: white;
+}
+
+.gameInfo{
+    display: flex;
+    justify-content: center;
+    gap: 16px;
 }
 
 .grid-container{

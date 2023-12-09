@@ -1,19 +1,32 @@
 
 const gridContainer = document.querySelector(".grid-container");
+let startBtn = document.querySelector("#gameStart");
 let cards = [];
 let firstCard, secondCard;
-let lockBoard = false;
+let lockBoard = true;
 let score = 0;
 
 document.querySelector('.score').textContent = score;
+startBtn.addEventListener("click", gameStart);
 
-fetch("./data/cards.json")
-    .then((res) => res.json())
-    .then((data) =>{
-        cards = [...data, ...data];
-        shuffleCards();
-        generateCards();
-    });
+
+
+fetch ("./data/cards.json")
+.then((res) => res.json())
+.then((data) =>{
+    cards = [...data, ...data];
+    shuffleCards();
+    generateCards();
+});
+
+
+
+function gameStart(){    
+    lockBoard = false;
+    let hideStartScreen = document.querySelector(".startScreen");
+    hideStartScreen.style.visibility = "hidden";
+    startTimer();
+}
 
 function shuffleCards(){
     let currentIndex = cards.length,
@@ -56,8 +69,6 @@ function flipCard(){
     }
 
     secondCard = this;
-    score++;
-    document.querySelector(".score").textContent = score;
     lockBoard = true;
 
     checkForMatch();
@@ -66,7 +77,13 @@ function flipCard(){
 function checkForMatch() {
     let isMatch = firstCard.dataset.name === secondCard.dataset.name;
 
-    isMatch ? disableCards() : unflipCards();
+    if(isMatch){
+        finalScore();
+        disableCards();
+    }else{
+        unflipCards();
+    } 
+        
 }
 
 function disableCards() {
@@ -90,11 +107,33 @@ function resetBoard() {
     lockBoard = false;
 }
 
+function startTimer() {
+    let startTime = Date.now();
+
+    function updateTimer() {
+      const elapsedTime = (Date.now() - startTime) / 1000;
+      const formattedTime = elapsedTime.toFixed(2);
+      document.querySelector('.timer').innerText = formattedTime;
+
+      requestAnimationFrame(updateTimer);
+    }
+
+    updateTimer();
+  }
+  
+function finalScore(){
+    ++score;
+    document.querySelector(".score").textContent = score;
+}
+
 function restart (){
     resetBoard();
     shuffleCards();
     score = 0;
+    timer = 0.00;
     document.querySelector(".score").textContent = score;
+    document.querySelector('.timer').textContent = timer;
     gridContainer.innerHTML = "";
     generateCards();
 }
+
