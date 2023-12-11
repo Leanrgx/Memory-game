@@ -1,6 +1,8 @@
 
 const gridContainer = document.querySelector(".grid-container");
 let startBtn = document.querySelector("#gameStart");
+let restartBtn = document.querySelector('.restart');
+let finalScoreDisplay = document.querySelector(".finalScoreDisplay");
 let cards = [];
 let firstCard, secondCard;
 let lockBoard = true;
@@ -8,8 +10,7 @@ let score = 0;
 
 document.querySelector('.score').textContent = score;
 startBtn.addEventListener("click", gameStart);
-
-
+restartBtn.addEventListener("click", restart);
 
 fetch ("./data/cards.json")
 .then((res) => res.json())
@@ -18,8 +19,6 @@ fetch ("./data/cards.json")
     shuffleCards();
     generateCards();
 });
-
-
 
 function gameStart(){    
     lockBoard = false;
@@ -113,7 +112,7 @@ function startTimer() {
     function updateTimer() {
         if (score == 10){
             const finalTime = document.querySelector('.timer').innerText;
-            return finalTime; 
+            return gameOver(finalTime); 
         }         
         const elapsedTime = (Date.now() - startTime) / 1000;
         const formattedTime = elapsedTime.toFixed(2);
@@ -128,11 +127,14 @@ function startTimer() {
 function partialPlayerScore(){
     score = score + 10;
     document.querySelector(".score").textContent = score;
+    return score;
 }
 
-function finalPlayerScore(){
+function gameOver(finalTime){
     let finalScore =  (score * 100) / finalTime;
-    console.log(finalScore);
+    finalScoreDisplay.innerHTML = "Good job! <br> Your final score is " + finalScore.toFixed(0)
+    finalScoreDisplay.style.visibility = "visible";
+    
 }
 
 function restart (){
@@ -145,5 +147,6 @@ function restart (){
     generateCards();
     document.querySelector('.timer').innerText = '0.00';
     startTimer();
+    finalScoreDisplay.style.visibility = "hidden";
 }
 
